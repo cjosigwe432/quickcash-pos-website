@@ -1,61 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>QuickCash POS</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="QuickCash POS offers fast and reliable cash withdrawal, transfers, and bill payments.">
+<title>QuickCash POS</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fb;
+  color: #111827;
+}
+
+/* NAVBAR */
+nav {
+  background: #111827;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* HERO SECTION */
+.hero {
+  background: linear-gradient(to right, #4F46E5, #6366F1);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.hero img {
+  width: 250px;
+  margin-top: 20px;
+  border-radius: 15px;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* CARDS */
+.card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* BUTTON */
+.btn {
+  display: inline-block;
+  background: #22C55E;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #111827;
+  color: white;
+}
+</style>
 </head>
+
 <body>
 
-<header>
-  <h1>QuickCash POS</h1>
-  <p>Fast, Safe & Reliable Money Services</p>
-</header>
+<nav style="text-align:center;">
+  <img src="logo.png" style="height:50px;">
+</nav>
 
-<section class="about">
-  <h2>About Us</h2>
-  <p>
-    We provide quick and secure financial services including withdrawals,
-    transfers, and bill payments. Trusted by customers for speed and reliability.
-  </p>
+<!-- HERO -->
+<section class="hero">
+  <h1>Fast & Reliable POS Services</h1>
+  <p>Withdraw, Transfer & Pay Bills instantly with low charges</p>
+
+  <!-- Replace this image with your own -->
+  <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437d1" alt="POS Machine">
+
+  <br>
+  <a href="https://wa.me/2349168144059" class="btn">Chat on WhatsApp</a>
 </section>
 
-<section class="services">
+<!-- ABOUT -->
+<div class="container">
+  <div class="card">
+    <h2>About Us</h2>
+    <p>
+      We provide quick and secure financial services including withdrawals,
+      transfers, and bill payments. Trusted by customers for speed and reliability.
+    </p>
+  </div>
+
+  <!-- SERVICES -->
   <h2>Our Services</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Cash Withdrawal</h3>
+      <p>Fast withdrawal with low charges.</p>
+    </div>
 
-  <div class="card">
-    <h3>Cash Withdrawal</h3>
-    <p>Fast withdrawal with low charges.</p>
+    <div class="card">
+      <h3>Money Transfer</h3>
+      <p>Send money to any bank instantly.</p>
+    </div>
+
+    <div class="card">
+      <h3>Bill Payments</h3>
+      <p>Pay bills easily without stress.</p>
+    </div>
   </div>
 
+  <!-- CHARGES -->
   <div class="card">
-    <h3>Money Transfer</h3>
-    <p>Send money to any bank instantly.</p>
+    <h2>Our Charges</h2>
+    <p>₦100 per ₦5,000 withdrawal</p>
   </div>
 
+  <!-- CONTACT -->
   <div class="card">
-    <h3>Bill Payments</h3>
-    <p>Pay bills easily without stress.</p>
+    <h2>Contact Us</h2>
+    <p>Call: 09168144059</p>
+    <a href="https://wa.me/2349168144059" class="btn">Chat on WhatsApp</a>
   </div>
+</div>
 
-</section>
-
-<section class="charges">
-  <h2>Our Charges</h2>
-  <p>₦100 per ₦5,000 withdrawal</p>
-</section>
-
-<section class="contact">
-  <h2>Contact Us</h2>
-  <p>Call: 09168144059</p>
-</section>
-
-<a href="https://wa.me/2349168144059" class="whatsapp-btn">
-  Chat on WhatsApp
-</a>
+<footer>
+  ©️ 2026 QuickCash POS | All Rights Reserved
+</footer>
 
 </body>
 </html>
-<link rel="stylesheet" href="style.css">
