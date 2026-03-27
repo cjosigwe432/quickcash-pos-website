@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickCash POS - Fast & Secure Financial Services | Owerri</title>
+    <title>Buike POS - Fast & Secure Financial Services | Owerri</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <style>
         :root {
             --primary: #4F46E5;
-            --secondary: #6366F1;
             --success: #22C55E;
             --dark: #111827;
             --gray: #64748b;
@@ -39,7 +38,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .logo { font-size: 1.9rem; font-weight: 700; color: white; text-decoration: none; }
+        .logo { font-size: 1.95rem; font-weight: 700; color: white; text-decoration: none; }
         .logo span { color: var(--success); }
         .nav-links { display: flex; gap: 2rem; list-style: none; }
         .nav-links a { color: white; text-decoration: none; font-weight: 500; }
@@ -47,7 +46,7 @@
         .hamburger { display: none; font-size: 1.8rem; cursor: pointer; color: white; }
 
         .hero {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), #22C55E);
             color: white;
             padding: 180px 20px 130px;
             text-align: center;
@@ -77,9 +76,9 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .card:hover { transform: translateY(-10px); }
 
-        /* App Demo Modal - Looks like real mobile app */
+        /* App Demo */
         .app-modal {
             display: none;
             position: fixed;
@@ -96,9 +95,7 @@
             background: #111827;
             border-radius: 50px;
             padding: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
         }
         .phone-screen {
             width: 100%;
@@ -122,7 +119,6 @@
             padding: 20px;
             border-radius: 16px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
         .service-grid {
             display: grid;
@@ -132,15 +128,13 @@
         }
         .service-card {
             background: white;
-            padding: 15px 10px;
+            padding: 15px 8px;
             border-radius: 14px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            transition: 0.2s;
         }
-        .service-card:active { transform: scale(0.95); }
+        .service-card:active { transform: scale(0.92); }
 
-        /* Transfer Screen */
         .transfer-screen {
             padding: 20px;
             background: white;
@@ -196,11 +190,11 @@
     <!-- Navbar -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">QuickCash <span>POS</span></a>
+            <a href="#" class="logo">Buike <span>POS</span></a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#" onclick="openAppDemo()">Try App Demo</a></li>
+                <li><a href="#" onclick="openAppDemo()">App Demo</a></li>
                 <li><a href="#calculator">Calculator</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -215,47 +209,45 @@
     <!-- Hero -->
     <section id="home" class="hero">
         <div style="max-width: 850px; margin: 0 auto;">
-            <h1>QuickCash POS Owerri</h1>
-            <p style="font-size: 1.35rem; margin: 1.5rem 0;">Create account • Download app feel • Transfer money instantly</p>
-            <button onclick="openAppDemo()" class="btn" style="margin:10px;">
-                <i class="fas fa-mobile-alt"></i> Try Live App Demo
-            </button>
-            <a href="#" onclick="showSignupModal()" class="btn" style="margin:10px;">Create Agent Account</a>
+            <h1>Buike POS Owerri</h1>
+            <p style="font-size: 1.35rem; margin: 1.5rem 0;">Instant Cash • Transfers • Bill Payments<br>Lowest charges in Imo State</p>
+            <button onclick="openAppDemo()" class="btn" style="margin:10px;">Try App Demo</button>
+            <button onclick="showSignupModal()" class="btn" style="margin:10px; background:#4F46E5;">Create Agent Account</button>
         </div>
     </section>
 
-    <!-- Services (now clickable - opens app demo) -->
+    <!-- Services -->
     <section id="services">
         <div class="container">
-            <h2>Our Services in Owerri</h2>
+            <h2>Our Services</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
                 <div class="card" onclick="openAppDemo()">
                     <i class="fas fa-money-bill-wave" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
                     <h3>Cash Withdrawal</h3>
-                    <p>Tap to try in demo app</p>
+                    <p>Fast cash out</p>
                 </div>
                 <div class="card" onclick="openAppDemo()">
                     <i class="fas fa-exchange-alt" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
                     <h3>Money Transfer</h3>
-                    <p>Send money instantly - real app feel</p>
+                    <p>To any bank instantly</p>
                 </div>
                 <div class="card" onclick="openAppDemo()">
                     <i class="fas fa-file-invoice" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
                     <h3>Bill Payments</h3>
-                    <p>Airtime, Electricity & more</p>
+                    <p>Airtime, Electricity, Cable TV</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Agent App Promo -->
+    <!-- App Demo Section -->
     <section id="app-setup" style="background: #f1f5f9;">
         <div class="container">
-            <h2>Our Real App Experience</h2>
+            <h2>Buike POS Mobile App</h2>
             <div style="background: white; padding: 45px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); max-width: 720px; margin: 0 auto; text-align: center;">
-                <p style="font-size:1.25rem;">Try the full QuickCash POS app right here on the website.<br>Feels exactly like the real Android app.</p>
-                <button onclick="openAppDemo()" class="btn" style="margin-top:20px; font-size:1.2rem; padding:18px 45px;">
-                    <i class="fas fa-mobile-alt"></i> Open Live App Demo
+                <p style="font-size:1.25rem; margin-bottom:25px;">Experience the real Buike POS app right here.<br>Tap services and transfer money like the actual app.</p>
+                <button onclick="openAppDemo()" class="btn" style="font-size:1.2rem; padding:18px 50px;">
+                    <i class="fas fa-mobile-alt"></i> Open App Demo
                 </button>
             </div>
         </div>
@@ -264,7 +256,7 @@
     <!-- Calculator -->
     <section id="calculator">
         <div class="container">
-            <h2>Calculate Your Charges</h2>
+            <h2>Calculate Charges</h2>
             <div style="max-width:520px; margin:0 auto; background:white; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
                 <label><strong>Enter Amount (₦)</strong></label>
                 <input type="number" id="amount" placeholder="5000" min="100">
@@ -280,12 +272,12 @@
     <!-- Contact -->
     <section id="contact">
         <div class="container">
-            <h2>Get In Touch - Owerri, Imo State</h2>
+            <h2>Contact Buike POS - Owerri</h2>
             <div style="max-width:620px; margin:0 auto; background:white; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
-                <p style="font-size:1.3rem; margin-bottom:25px; text-align:center;">Call/WhatsApp: <strong>0916 814 4059</strong></p>
+                <p style="font-size:1.3rem; margin-bottom:25px; text-align:center;">Call / WhatsApp: <strong>0916 814 4059</strong></p>
                 <form id="inquiryForm">
-                    <input type="hidden" name="access_key" value="2b23ab93-c4df-4bd1-a0c6-1f4cd33e5623<!-- ← Put your real key here -->
-                    <input type="hidden" name="subject" value="New Inquiry - QuickCash POS Owerri">
+                    <input type="hidden" name="access_key" value="2b23ab93-c4df-4bd1-a0c6-1f4cd33e5623"> <!-- Replace with your real Web3Forms key -->    
+                    <input type="hidden" name="subject" value="New Inquiry - Buike POS Owerri">
                     <input type="text" name="name" placeholder="Your Full Name" required>
                     <input type="tel" name="phone" placeholder="Phone Number" required>
                     <textarea name="message" placeholder="How can we help you?" rows="5" required></textarea>
@@ -297,84 +289,76 @@
     </section>
 
     <footer style="background:var(--dark); color:white; padding:50px 20px; text-align:center;">
-        <p>©️ 2026 QuickCash POS • All Rights Reserved | Owerri, Imo State</p>
+        <p>©️ 2026 Buike POS • All Rights Reserved | Owerri, Imo State</p>
     </footer>
 
-    <!-- REAL APP DEMO MODAL (feels like a real mobile app) -->
+    <!-- Live App Demo (Realistic Mobile App Feel) -->
     <div id="appDemoModal" class="app-modal">
         <div class="phone-frame">
             <div class="phone-screen">
-                <!-- App Header -->
                 <div class="app-header">
-                    <i class="fas fa-arrow-left" onclick="closeAppDemo()" style="position:absolute; left:15px; top:15px; cursor:pointer;"></i>
-                    QuickCash POS
+                    <i class="fas fa-arrow-left" onclick="closeAppDemo()" style="position:absolute;left:15px;cursor:pointer;"></i>
+                    Buike POS
                 </div>
-
-                <!-- Balance -->
                 <div class="app-balance">
-                    <p style="color:#64748b; font-size:0.9rem;">Available Balance</p>
-                    <h2 style="font-size:2.2rem; color:var(--success);">₦248,750</h2>
-                    <small>Agent ID: QCP-OWR-09168144059</small>
+                    <p style="color:#64748b;">Available Balance</p>
+                    <h2 style="font-size:2.3rem;color:var(--success);">₦248,750</h2>
                 </div>
 
-                <!-- Main Services Grid -->
+                <!-- Main Screen -->
                 <div id="mainAppScreen">
                     <div class="service-grid">
                         <div class="service-card" onclick="showTransferScreen()">
-                            <i class="fas fa-exchange-alt" style="font-size:2rem; color:#4F46E5; margin-bottom:8px;"></i>
-                            <p style="font-weight:600; font-size:0.95rem;">Transfer</p>
+                            <i class="fas fa-exchange-alt" style="font-size:2.2rem;color:#4F46E5;margin-bottom:8px;"></i>
+                            <p>Transfer</p>
                         </div>
-                        <div class="service-card" onclick="alert('✅ Withdrawal started! (Demo)')">
-                            <i class="fas fa-money-bill-wave" style="font-size:2rem; color:#22C55E; margin-bottom:8px;"></i>
-                            <p style="font-weight:600; font-size:0.95rem;">Withdrawal</p>
+                        <div class="service-card" onclick="alert('✅ Withdrawal initiated (Demo)')">
+                            <i class="fas fa-money-bill-wave" style="font-size:2.2rem;color:var(--success);margin-bottom:8px;"></i>
+                            <p>Withdrawal</p>
                         </div>
-                        <div class="service-card" onclick="alert('✅ Bill payment screen opened (Demo)')">
-                            <i class="fas fa-file-invoice" style="font-size:2rem; color:#F59E0B; margin-bottom:8px;"></i>
-                            <p style="font-weight:600; font-size:0.95rem;">Pay Bills</p>
+                        <div class="service-card" onclick="alert('✅ Bill payment opened (Demo)')">
+                            <i class="fas fa-file-invoice" style="font-size:2.2rem;color:#F59E0B;margin-bottom:8px;"></i>
+                            <p>Pay Bills</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Transfer Screen (hidden by default) -->
+                <!-- Transfer Screen -->
                 <div id="transferScreen" class="transfer-screen" style="display:none;">
-                    <h3 style="text-align:center; margin-bottom:20px;">Send Money</h3>
-                    <input type="text" id="recipient" placeholder="Recipient Name or Bank Account" value="Chinonso Okeke - 0123456789">
-                    <input type="number" id="transferAmount" placeholder="Amount to send (₦)" value="15000">
-                    <textarea id="transferNote" placeholder="Note (optional)" rows="2">For school fees</textarea>
-                    
-                    <button onclick="processTransfer()" class="btn" style="width:100%; margin-top:15px; background:var(--success);">
-                        Transfer Now - ₦<span id="transferTotal">15000</span>
+                    <h3 style="text-align:center;margin-bottom:20px;">Send Money</h3>
+                    <input type="text" id="recipient" value="Chinonso Okeke - 0123456789" placeholder="Recipient">
+                    <input type="number" id="transferAmount" value="15000" placeholder="Amount ₦">
+                    <textarea id="transferNote" rows="2" placeholder="Note">School fees</textarea>
+                    <button onclick="processTransfer()" class="btn" style="width:100%;margin-top:15px;background:var(--success);">
+                        Transfer ₦<span id="transferTotal">15000</span>
                     </button>
-                    
-                    <button onclick="backToMainApp()" style="margin-top:10px; width:100%; background:#f1f5f9; color:#111827; border:none; padding:12px; border-radius:10px;">
-                        ← Back
-                    </button>
+                    <button onclick="backToMainApp()" style="margin-top:10px;width:100%;background:#f1f5f9;color:#111827;border:none;padding:12px;border-radius:10px;">← Back</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Login & Signup Modals (kept from before) -->
+    <!-- Login & Signup Modals -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModals()">×</span>
-            <h3 style="text-align:center;">Login to Your Account</h3>
+            <h3 style="text-align:center;">Login to Buike POS</h3>
             <input type="tel" id="loginPhone" placeholder="Phone Number">
             <input type="password" id="loginPassword" placeholder="Password">
-            <button onclick="performLogin()" class="btn" style="width:100%; background:var(--primary);">Login</button>
-            <p style="text-align:center; margin-top:20px;">New agent? <a href="#" onclick="switchToSignup()">Create account</a></p>
+            <button onclick="performLogin()" class="btn" style="width:100%;background:var(--primary);">Login</button>
+            <p style="text-align:center;margin-top:20px;">New? <a href="#" onclick="switchToSignup()">Create account</a></p>
         </div>
     </div>
 
     <div id="signupModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModals()">×</span>
-            <h3 style="text-align:center;">Create Agent Account</h3>
+            <h3 style="text-align:center;">Create Buike Agent Account</h3>
             <input type="text" id="signupName" placeholder="Full Name">
             <input type="tel" id="signupPhone" placeholder="Phone Number">
             <input type="password" id="signupPassword" placeholder="Create Password">
-            <button onclick="performSignup()" class="btn" style="width:100%; background:var(--primary);">Create Account</button>
-            <p style="text-align:center; margin-top:20px;">Already have account? <a href="#" onclick="switchToLogin()">Login</a></p>
+            <button onclick="performSignup()" class="btn" style="width:100%;background:var(--primary);">Create Account</button>
+            <p style="text-align:center;margin-top:20px;">Have account? <a href="#" onclick="switchToLogin()">Login</a></p>
         </div>
     </div>
 
@@ -394,11 +378,10 @@
             document.getElementById('result').style.display = 'block';
         }
 
-        // App Demo
+        // App Demo Functions
         function openAppDemo() {
             document.getElementById('appDemoModal').style.display = 'flex';
-            document.getElementById('transferScreen').style.display = 'none';
-            document.getElementById('mainAppScreen').style.display = 'block';
+            backToMainApp();
         }
         function closeAppDemo() {
             document.getElementById('appDemoModal').style.display = 'none';
@@ -412,31 +395,26 @@
             document.getElementById('mainAppScreen').style.display = 'block';
         }
 
-        // Real transfer simulation (feels exactly like a real app)
         function processTransfer() {
-            const amount = document.getElementById('transferAmount').value;
-            const btn = document.querySelector('#transferScreen button:first-of-type');
-            const originalText = btn.innerHTML;
-
-            btn.innerHTML = 'Processing <i class="fas fa-spinner fa-spin"></i>';
+            let amount = document.getElementById('transferAmount').value;
+            let btn = document.querySelector('#transferScreen button:first-of-type');
+            let original = btn.innerHTML;
+            btn.innerHTML = 'Processing... <i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
 
             setTimeout(() => {
-                btn.innerHTML = `✅ Transferred ₦${amount} successfully!`;
-                btn.style.background = '#22C55E';
-
+                btn.innerHTML = `✅ ₦${amount} transferred successfully!`;
                 setTimeout(() => {
-                    alert(`🎉 Transfer of ₦${amount} completed!\n\nRecipient: Chinonso Okeke\nStatus: Successful\nNew Balance: ₦${248750 - parseInt(amount)}`);
+                    alert(`🎉 Transfer Successful!\nAmount: ₦${amount}\nRecipient: Chinonso Okeke\nNew Balance: ₦${248750 - parseInt(amount)}`);
                     closeAppDemo();
-                    btn.innerHTML = originalText;
-                    btn.style.background = '';
+                    btn.innerHTML = original;
                     btn.disabled = false;
                     backToMainApp();
-                }, 1500);
-            }, 1800);
+                }, 1200);
+            }, 1600);
         }
 
-        // Account system (same as before but kept clean)
+        // Account System
         function showLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
         function showSignupModal() { document.getElementById('signupModal').style.display = 'flex'; }
         function closeModals() {
@@ -450,9 +428,9 @@
             let name = document.getElementById('signupName').value.trim();
             let phone = document.getElementById('signupPhone').value.trim();
             let pass = document.getElementById('signupPassword').value.trim();
-            if (!name || !phone || !pass) return alert("Fill all fields");
-            localStorage.setItem('quickcash_user', JSON.stringify({name, phone, password: pass}));
-            alert(`✅ Account created for ${name}`);
+            if (!name || !phone || !pass) return alert("Please fill all fields");
+            localStorage.setItem('buike_user', JSON.stringify({name, phone, password: pass}));
+            alert(`✅ Welcome ${name}! Your Buike POS agent account is ready.`);
             closeModals();
             updateUserUI();
         }
@@ -460,35 +438,35 @@
         function performLogin() {
             let phone = document.getElementById('loginPhone').value.trim();
             let pass = document.getElementById('loginPassword').value.trim();
-            let stored = localStorage.getItem('quickcash_user');
-            if (!stored) return alert("No account yet. Create one.");
+            let stored = localStorage.getItem('buike_user');
+            if (!stored) return alert("Create an account first");
             let user = JSON.parse(stored);
             if (user.phone === phone && user.password === pass) {
-                alert(`✅ Welcome back ${user.name}`);
+                alert(`✅ Welcome back, ${user.name}`);
                 closeModals();
                 updateUserUI();
-            } else alert("Wrong phone or password");
+            } else alert("Incorrect phone or password");
         }
 
         function updateUserUI() {
-            let stored = localStorage.getItem('quickcash_user');
+            let stored = localStorage.getItem('buike_user');
             if (stored) {
                 let user = JSON.parse(stored);
-                document.getElementById('user-info').innerHTML = `Hi, ${user.name} <span style="font-size:0.8rem;">(Logged in)</span>`;
+                document.getElementById('user-info').innerHTML = `Hi, ${user.name}`;
                 document.getElementById('user-info').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'block';
             }
         }
 
         function logout() {
-            if (confirm("Logout from QuickCash POS?")) {
-                localStorage.removeItem('quickcash_user');
+            if (confirm("Logout from Buike POS?")) {
+                localStorage.removeItem('buike_user');
                 document.getElementById('user-info').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'none';
             }
         }
 
-        // Real inquiry form
+        // Real Inquiry Form
         const form = document.getElementById('inquiryForm');
         const submitBtn = document.getElementById('submitBtn');
         const messageDiv = document.getElementById('formMessage');
@@ -504,19 +482,19 @@
             try {
                 const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
                 if (res.ok) {
-                    messageDiv.innerHTML = '✅ Inquiry sent! You will receive reply on WhatsApp.';
+                    messageDiv.innerHTML = '✅ Inquiry sent successfully! We will reply soon via WhatsApp or call.';
                     messageDiv.style.color = '#22C55E';
                     messageDiv.style.background = '#f0fdf4';
                     form.reset();
                 } else throw new Error();
             } catch {
-                messageDiv.innerHTML = '❌ Failed. Please WhatsApp us directly.';
+                messageDiv.innerHTML = '❌ Failed to send. Please WhatsApp us on 0916 814 4059';
                 messageDiv.style.color = '#ef4444';
             }
             messageDiv.style.display = 'block';
             submitBtn.textContent = original;
             submitBtn.disabled = false;
-            setTimeout(() => messageDiv.style.display = 'none', 7000);
+            setTimeout(() => messageDiv.style.display = 'none', 8000);
         });
 
         window.onload = updateUserUI;
