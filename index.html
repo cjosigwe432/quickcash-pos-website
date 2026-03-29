@@ -3,202 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookEasy Global • Appointment Booking</title>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <title>TechSkills Hub - Learn & Grow</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0a0e1a 0%, #1a2338 100%); color: #fff; margin:0; padding:0; min-height:100vh; }
-        .container { max-width: 480px; margin: 0 auto; padding: 15px; }
-        .logo { font-size: 28px; font-weight: 700; color: #00ff9d; text-align:center; margin:20px 0; }
-        .card { background: rgba(255,255,255,0.08); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
-        input, select, button, textarea { width:100%; padding:14px; margin:8px 0; border-radius:12px; border:none; }
-        input, select, textarea { background: rgba(255,255,255,0.1); color:white; }
-        button { background: linear-gradient(90deg, #00d4ff, #00ff9d); color:#000; font-weight:700; cursor:pointer; }
-        .hidden { display:none; }
-        .booking-slot { background:rgba(255,255,255,0.06); padding:12px; margin:8px 0; border-radius:12px; cursor:pointer; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a2338 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0 30px;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00ff9d;
+        }
+        
+        .tagline {
+            font-size: 18px;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            color: #00ff9d;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00d4ff, #00ff9d);
+            color: black;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 16px;
+            margin: 15px 0;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        
+        .feature {
+            background: rgba(255,255,255,0.06);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-
-    <!-- AUTH SCREEN -->
-    <div id="authScreen">
-        <div class="logo">BookEasy</div>
-        <p style="text-align:center;opacity:0.8;">Global Appointment Booking for Businesses</p>
-        <div class="card">
-            <input type="email" id="email" placeholder="Business Email">
-            <input type="password" id="password" placeholder="Password">
-            <button onclick="signup()">Start Free Trial (14 days)</button>
-            <button onclick="login()" style="background:transparent;border:1px solid #00ff9d;color:#00ff9d;">Login to Dashboard</button>
+    <div class="container">
+        <div class="header">
+            <div class="logo">TechSkills Hub</div>
+            <div class="tagline">Learn Skills • Build Future • From Owerri</div>
         </div>
+
+        <div class="card">
+            <h2>Welcome</h2>
+            <p>I'm learning web development to build professional websites and apps.</p>
+            <p>This is my practice project. I will improve it step by step.</p>
+        </div>
+
+        <div class="card">
+            <h2>What I Will Learn</h2>
+            <div class="feature">✅ HTML & CSS (Beautiful Designs)</div>
+            <div class="feature">✅ JavaScript (Make it Interactive)</div>
+            <div class="feature">✅ Firebase (User Login & Database)</div>
+            <div class="feature">✅ Build Real Business Websites</div>
+        </div>
+
+        <a href="#" class="btn">Start Learning With Me</a>
+        
+        <p style="text-align:center; opacity:0.7; font-size:14px;">
+            Built by a young developer from Nigeria<br>
+            Turning 18 in December 2026
+        </p>
     </div>
-
-    <!-- BUSINESS DASHBOARD -->
-    <div id="dashboardScreen" class="hidden">
-        <div class="logo" style="font-size:24px;">BookEasy</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-            <h3 id="businessName"></h3>
-            <button onclick="logout()" style="background:#ff4444;padding:8px 16px;">Logout</button>
-        </div>
-
-        <div class="card">
-            <h4>Your Booking Link</h4>
-            <p id="bookingLink" style="background:#111;padding:12px;border-radius:12px;word-break:break-all;"></p>
-            <button onclick="copyLink()">Copy Link</button>
-        </div>
-
-        <div class="card">
-            <h4>Add Service</h4>
-            <input type="text" id="serviceName" placeholder="Service name (e.g. 1-Hour Coaching)">
-            <input type="number" id="serviceDuration" placeholder="Duration in minutes">
-            <input type="number" id="servicePrice" placeholder="Price (USD or your currency)">
-            <button onclick="addService()">Add Service</button>
-        </div>
-
-        <div class="card">
-            <h4>Upcoming Bookings</h4>
-            <div id="upcomingBookings"></div>
-        </div>
-
-        <button onclick="showPricing()" style="background:#ffd700;color:#000;margin-top:20px;">Upgrade to Premium (Unlock Unlimited Bookings)</button>
-    </div>
-
-    <!-- PUBLIC BOOKING PAGE (Customer View) -->
-    <div id="publicBookingScreen" class="hidden">
-        <div class="logo" style="font-size:22px;">Book with <span id="publicBusinessName"></span></div>
-        <div class="card">
-            <h4>Select a Service</h4>
-            <div id="publicServices"></div>
-        </div>
-        <div class="card">
-            <h4>Available Slots</h4>
-            <div id="availableSlots"></div>
-        </div>
-        <button onclick="backToDashboard()" style="background:#555;">← Back</button>
-    </div>
-</div>
-
-<script>
-// ================== REPLACE WITH YOUR REAL FIREBASE CONFIG ==================
-const firebaseConfig = {
-  apiKey: "AIzaSyDLvK-Q4v1hZ2B-mtxZzNXs5m1tCS6LdGw",
-  authDomain: "neobank-app-3ebbe.firebaseapp.com",
-  projectId: "neobank-app-3ebbe",
-  // storageBucket, messagingSenderId, appId if needed
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-let currentUser = null;
-
-// Auth
-async function signup() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  try {
-    const cred = await auth.createUserWithEmailAndPassword(email, password);
-    await db.collection("businesses").doc(cred.user.uid).set({
-      name: email.split('@')[0],
-      email: email,
-      created: new Date()
-    });
-    alert("Business account created! 14-day free trial started.");
-  } catch(e) { alert(e.message); }
-}
-
-async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  try { await auth.signInWithEmailAndPassword(email, password); } catch(e) { alert(e.message); }
-}
-
-function logout() { auth.signOut(); }
-
-auth.onAuthStateChanged(user => {
-  if (user) {
-    currentUser = user;
-    document.getElementById("authScreen").classList.add("hidden");
-    document.getElementById("dashboardScreen").classList.remove("hidden");
-    loadBusinessData();
-  } else {
-    document.getElementById("authScreen").classList.remove("hidden");
-    document.getElementById("dashboardScreen").classList.add("hidden");
-    document.getElementById("publicBookingScreen").classList.add("hidden");
-  }
-});
-
-// Load business data
-async function loadBusinessData() {
-  const doc = await db.collection("businesses").doc(currentUser.uid).get();
-  const data = doc.data() || {};
-  document.getElementById("businessName").innerText = data.name || "Your Business";
-  document.getElementById("bookingLink").innerText = `https://bookeasy.app/${currentUser.uid}`;
-  loadServices();
-  loadBookings();
-}
-
-async function addService() {
-  const name = document.getElementById("serviceName").value;
-  const duration = parseInt(document.getElementById("serviceDuration").value);
-  const price = parseFloat(document.getElementById("servicePrice").value);
-
-  if (!name || !duration) return alert("Fill service details");
-
-  await db.collection("services").add({
-    businessId: currentUser.uid,
-    name,
-    duration,
-    price: price || 0,
-    created: new Date()
-  });
-  alert("Service added!");
-  loadServices();
-}
-
-// Load services (for dashboard)
-async function loadServices() {
-  // You can expand this later
-  console.log("Services loaded (expand as needed)");
-}
-
-// Load upcoming bookings
-async function loadBookings() {
-  const container = document.getElementById("upcomingBookings");
-  container.innerHTML = "<p>No bookings yet. Share your link!</p>";
-  // Real bookings will appear here once customers book
-}
-
-// Copy booking link
-function copyLink() {
-  const link = document.getElementById("bookingLink").innerText;
-  navigator.clipboard.writeText(link);
-  alert("Link copied! Share with customers worldwide.");
-}
-
-// Premium modal
-function showPricing() {
-  alert("Premium Plan: ₦4,000 / $12 per month\n\nUnlock unlimited bookings, custom domain, payment integration & analytics.\n\n(Connect Paystack here in production)");
-}
-
-// =============== PUBLIC BOOKING VIEW (for customers) ===============
-// To test: Open the same page and manually call showPublicBooking("business-uid")
-function showPublicBooking(businessId) {
-  document.getElementById("dashboardScreen").classList.add("hidden");
-  document.getElementById("publicBookingScreen").classList.remove("hidden");
-  // Load services for this business
-  // In real deployment you would pass the businessId from URL
-  document.getElementById("publicBusinessName").innerText = "Demo Business";
-}
-
-// Back button
-function backToDashboard() {
-  document.getElementById("publicBookingScreen").classList.add("hidden");
-  document.getElementById("dashboardScreen").classList.remove("hidden");
-}
-</script>
 </body>
 </html>
