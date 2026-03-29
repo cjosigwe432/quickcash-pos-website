@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalFace AI • Face Swap & Grok API</title>
+    <title>BookEasy Global • Appointment Booking</title>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
@@ -11,79 +11,82 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0a0e1a 0%, #1a2338 100%); color: #fff; margin:0; padding:0; min-height:100vh; }
         .container { max-width: 480px; margin: 0 auto; padding: 15px; }
-        .logo { font-size: 32px; font-weight: 700; background: linear-gradient(90deg, #00ff9d, #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align:center; margin:20px 0; }
+        .logo { font-size: 28px; font-weight: 700; color: #00ff9d; text-align:center; margin:20px 0; }
         .card { background: rgba(255,255,255,0.08); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
-        input, button, select { width:100%; padding:14px; margin:10px 0; border-radius:12px; border:none; }
-        input, select { background: rgba(255,255,255,0.1); color:white; }
+        input, select, button, textarea { width:100%; padding:14px; margin:8px 0; border-radius:12px; border:none; }
+        input, select, textarea { background: rgba(255,255,255,0.1); color:white; }
         button { background: linear-gradient(90deg, #00d4ff, #00ff9d); color:#000; font-weight:700; cursor:pointer; }
-        .tab { display:flex; background:rgba(255,255,255,0.1); border-radius:12px; padding:5px; margin:15px 0; }
-        .tab button { flex:1; background:transparent; }
         .hidden { display:none; }
-        .ad { background:#111; padding:12px; text-align:center; margin:15px 0; border:1px dashed #00ff9d; font-size:13px; }
-        img { max-width:100%; border-radius:12px; margin:10px 0; }
+        .booking-slot { background:rgba(255,255,255,0.06); padding:12px; margin:8px 0; border-radius:12px; cursor:pointer; }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="logo">GlobalFace AI</div>
 
-    <!-- AUTH -->
+    <!-- AUTH SCREEN -->
     <div id="authScreen">
+        <div class="logo">BookEasy</div>
+        <p style="text-align:center;opacity:0.8;">Global Appointment Booking for Businesses</p>
         <div class="card">
-            <input type="email" id="email" placeholder="Email">
+            <input type="email" id="email" placeholder="Business Email">
             <input type="password" id="password" placeholder="Password">
-            <button onclick="signup()">Sign Up Free</button>
-            <button onclick="login()" style="background:transparent;border:1px solid #00ff9d;color:#00ff9d;">Login</button>
+            <button onclick="signup()">Start Free Trial (14 days)</button>
+            <button onclick="login()" style="background:transparent;border:1px solid #00ff9d;color:#00ff9d;">Login to Dashboard</button>
         </div>
     </div>
 
-    <!-- MAIN APP -->
-    <div id="mainScreen" class="hidden">
-        <div style="text-align:center;">
-            <h2>Welcome to GlobalFace AI</h2>
-            <button onclick="logout()" style="background:#ff4444;padding:8px 20px;">Logout</button>
+    <!-- BUSINESS DASHBOARD -->
+    <div id="dashboardScreen" class="hidden">
+        <div class="logo" style="font-size:24px;">BookEasy</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <h3 id="businessName"></h3>
+            <button onclick="logout()" style="background:#ff4444;padding:8px 16px;">Logout</button>
         </div>
 
-        <!-- AdSense Placeholder - Replace with your real AdSense code later -->
-        <div class="ad">📣 Ad Space • Earn money with Google AdSense</div>
-
-        <!-- Tabs -->
-        <div class="tab">
-            <button onclick="showTab(0)" id="tab0">Face Swap</button>
-            <button onclick="showTab(1)" id="tab1">AI Chat</button>
+        <div class="card">
+            <h4>Your Booking Link</h4>
+            <p id="bookingLink" style="background:#111;padding:12px;border-radius:12px;word-break:break-all;"></p>
+            <button onclick="copyLink()">Copy Link</button>
         </div>
 
-        <!-- FACE SWAP TAB -->
-        <div id="tabContent0">
-            <div class="card">
-                <h3>International Face Swap</h3>
-                <p>Upload your photo + any celebrity/friend photo</p>
-                <input type="file" id="face1" accept="image/*">
-                <input type="file" id="face2" accept="image/*">
-                <button onclick="simulateFaceSwap()">Swap Faces Now</button>
-                <div id="swapResult"></div>
-                <small style="opacity:0.7;">Note: Real AI swap needs backend (Hugging Face / Replicate). This is live demo.</small>
-            </div>
+        <div class="card">
+            <h4>Add Service</h4>
+            <input type="text" id="serviceName" placeholder="Service name (e.g. 1-Hour Coaching)">
+            <input type="number" id="serviceDuration" placeholder="Duration in minutes">
+            <input type="number" id="servicePrice" placeholder="Price (USD or your currency)">
+            <button onclick="addService()">Add Service</button>
         </div>
 
-        <!-- AI CHAT TAB -->
-        <div id="tabContent1" class="hidden">
-            <div class="card">
-                <h3>Ask GlobalFace AI Anything</h3>
-                <div id="chatHistory" style="height:300px;overflow-y:auto;background:rgba(0,0,0,0.3);padding:10px;border-radius:12px;margin-bottom:10px;"></div>
-                <input type="text" id="chatInput" placeholder="Ask about dating, life, jokes...">
-                <button onclick="sendAIChat()">Send to AI</button>
-            </div>
+        <div class="card">
+            <h4>Upcoming Bookings</h4>
+            <div id="upcomingBookings"></div>
         </div>
+
+        <button onclick="showPricing()" style="background:#ffd700;color:#000;margin-top:20px;">Upgrade to Premium (Unlock Unlimited Bookings)</button>
+    </div>
+
+    <!-- PUBLIC BOOKING PAGE (Customer View) -->
+    <div id="publicBookingScreen" class="hidden">
+        <div class="logo" style="font-size:22px;">Book with <span id="publicBusinessName"></span></div>
+        <div class="card">
+            <h4>Select a Service</h4>
+            <div id="publicServices"></div>
+        </div>
+        <div class="card">
+            <h4>Available Slots</h4>
+            <div id="availableSlots"></div>
+        </div>
+        <button onclick="backToDashboard()" style="background:#555;">← Back</button>
     </div>
 </div>
 
 <script>
-// === YOUR REAL FIREBASE CONFIG HERE ===
+// ================== REPLACE WITH YOUR REAL FIREBASE CONFIG ==================
 const firebaseConfig = {
   apiKey: "AIzaSyDLvK-Q4v1hZ2B-mtxZzNXs5m1tCS6LdGw",
   authDomain: "neobank-app-3ebbe.firebaseapp.com",
   projectId: "neobank-app-3ebbe",
+  // storageBucket, messagingSenderId, appId if needed
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -92,13 +95,18 @@ const db = firebase.firestore();
 
 let currentUser = null;
 
+// Auth
 async function signup() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   try {
     const cred = await auth.createUserWithEmailAndPassword(email, password);
-    await db.collection("users").doc(cred.user.uid).set({ email, joined: new Date() });
-    alert("Account created successfully! Welcome to GlobalFace AI.");
+    await db.collection("businesses").doc(cred.user.uid).set({
+      name: email.split('@')[0],
+      email: email,
+      created: new Date()
+    });
+    alert("Business account created! 14-day free trial started.");
   } catch(e) { alert(e.message); }
 }
 
@@ -114,53 +122,82 @@ auth.onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
     document.getElementById("authScreen").classList.add("hidden");
-    document.getElementById("mainScreen").classList.remove("hidden");
-    showTab(0);
+    document.getElementById("dashboardScreen").classList.remove("hidden");
+    loadBusinessData();
   } else {
     document.getElementById("authScreen").classList.remove("hidden");
-    document.getElementById("mainScreen").classList.add("hidden");
+    document.getElementById("dashboardScreen").classList.add("hidden");
+    document.getElementById("publicBookingScreen").classList.add("hidden");
   }
 });
 
-// Tab switching
-function showTab(n) {
-  document.getElementById("tabContent0").classList.add("hidden");
-  document.getElementById("tabContent1").classList.add("hidden");
-  document.getElementById("tabContent"+n).classList.remove("hidden");
+// Load business data
+async function loadBusinessData() {
+  const doc = await db.collection("businesses").doc(currentUser.uid).get();
+  const data = doc.data() || {};
+  document.getElementById("businessName").innerText = data.name || "Your Business";
+  document.getElementById("bookingLink").innerText = `https://bookeasy.app/${currentUser.uid}`;
+  loadServices();
+  loadBookings();
 }
 
-// Simple Face Swap Simulation (real version needs backend)
-function simulateFaceSwap() {
-  const resultDiv = document.getElementById("swapResult");
-  resultDiv.innerHTML = `
-    <p style="color:#00ff9d;">✅ Face swap simulation complete!</p>
-    <img src="https://via.placeholder.com/400x300/111/00ff9d?text=Swapped+Face+Result" alt="Swapped">
-    <p><small>In production, connect to Hugging Face or Replicate API for real AI swap.</small></p>
-  `;
+async function addService() {
+  const name = document.getElementById("serviceName").value;
+  const duration = parseInt(document.getElementById("serviceDuration").value);
+  const price = parseFloat(document.getElementById("servicePrice").value);
+
+  if (!name || !duration) return alert("Fill service details");
+
+  await db.collection("services").add({
+    businessId: currentUser.uid,
+    name,
+    duration,
+    price: price || 0,
+    created: new Date()
+  });
+  alert("Service added!");
+  loadServices();
 }
 
-// Simple AI Chat (rule-based + fun responses - you can later connect to real LLM via API)
-function sendAIChat() {
-  const input = document.getElementById("chatInput").value.trim();
-  if (!input) return;
+// Load services (for dashboard)
+async function loadServices() {
+  // You can expand this later
+  console.log("Services loaded (expand as needed)");
+}
 
-  const history = document.getElementById("chatHistory");
-  history.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+// Load upcoming bookings
+async function loadBookings() {
+  const container = document.getElementById("upcomingBookings");
+  container.innerHTML = "<p>No bookings yet. Share your link!</p>";
+  // Real bookings will appear here once customers book
+}
 
-  let reply = "Interesting question! Tell me more.";
-  
-  const lower = input.toLowerCase();
-  if (lower.includes("dating") || lower.includes("love")) reply = "In international dating, be honest in your profile and start with genuine conversation. What's your biggest challenge?";
-  else if (lower.includes("joke")) reply = "Why don't programmers prefer dark mode? Because light attracts bugs! 😂";
-  else if (lower.includes("hi") || lower.includes("hello")) reply = "Hello from GlobalFace AI! How can I help you today?";
-  else if (lower.includes("face swap")) reply = "Upload two photos in the Face Swap tab. For real AI quality, we'll integrate a backend model soon.";
+// Copy booking link
+function copyLink() {
+  const link = document.getElementById("bookingLink").innerText;
+  navigator.clipboard.writeText(link);
+  alert("Link copied! Share with customers worldwide.");
+}
 
-  setTimeout(() => {
-    history.innerHTML += `<p><strong>GlobalFace AI:</strong> ${reply}</p>`;
-    history.scrollTop = history.scrollHeight;
-  }, 600);
+// Premium modal
+function showPricing() {
+  alert("Premium Plan: ₦4,000 / $12 per month\n\nUnlock unlimited bookings, custom domain, payment integration & analytics.\n\n(Connect Paystack here in production)");
+}
 
-  document.getElementById("chatInput").value = "";
+// =============== PUBLIC BOOKING VIEW (for customers) ===============
+// To test: Open the same page and manually call showPublicBooking("business-uid")
+function showPublicBooking(businessId) {
+  document.getElementById("dashboardScreen").classList.add("hidden");
+  document.getElementById("publicBookingScreen").classList.remove("hidden");
+  // Load services for this business
+  // In real deployment you would pass the businessId from URL
+  document.getElementById("publicBusinessName").innerText = "Demo Business";
+}
+
+// Back button
+function backToDashboard() {
+  document.getElementById("publicBookingScreen").classList.add("hidden");
+  document.getElementById("dashboardScreen").classList.remove("hidden");
 }
 </script>
 </body>
