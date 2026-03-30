@@ -1,105 +1,420 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeoBank App</title>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<style>
+body {
+  background: #0f172a;
+  color: white;
+  font-family: sans-serif;
+  padding: 20px;
+}
+input, button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+}
+.hidden { display: none; }
+</style>
+</head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechSkills Hub - Learn & Grow</title>
+    <title>NeoBank • Nigeria</title>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
+        :root {
+            --primary: #00d4ff;
+            --accent: #00ff9d;
+        }
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #0a0e1a 0%, #1a2338 100%);
-            color: white;
-            min-height: 100vh;
+            box-sizing: border-box;
         }
-        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a2338 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px 15px;
+            background-attachment: fixed;
+        }
         .container {
             max-width: 420px;
             margin: 0 auto;
-            padding: 20px;
         }
-        
-        .header {
-            text-align: center;
-            padding: 40px 0 30px;
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
         }
-        
         .logo {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
-            color: #00ff9d;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        .tagline {
-            font-size: 18px;
+        .balance-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 28px 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .balance-label {
+            font-size: 15px;
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+        .balance-amount {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .card-number {
+            margin-top: 20px;
+            font-size: 15px;
             opacity: 0.8;
-            margin-top: 10px;
+            letter-spacing: 3px;
         }
-        
-        .card {
-            background: rgba(255,255,255,0.08);
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 25px 0 15px;
+        }
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .action-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px 8px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .action-btn:hover {
+            background: rgba(0, 212, 255, 0.15);
+            transform: translateY(-3px);
+        }
+        .send-section {
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
         }
-        
-        h2 {
-            color: #00ff9d;
-            margin-bottom: 15px;
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 12px;
         }
-        
-        .btn {
-            display: block;
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        button {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(90deg, #00d4ff, #00ff9d);
-            color: black;
-            text-align: center;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #000;
             font-weight: 700;
+            border: none;
             border-radius: 16px;
-            margin: 15px 0;
-            text-decoration: none;
             font-size: 17px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        
-        .feature {
-            background: rgba(255,255,255,0.06);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+        .hidden { display: none !important; }
+        .auth-form {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 30px 25px;
+            border-radius: 24px;
+        }
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            text-align: center;
+            font-size: 11px;
+            color: #aaa;
+        }
+        .nav-item.active {
+            color: var(--primary);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">TechSkills Hub</div>
-            <div class="tagline">Learn Skills • Build Future • From Owerri</div>
-        </div>
 
-        <div class="card">
-            <h2>Welcome</h2>
-            <p>I'm learning web development to build professional websites and apps.</p>
-            <p>This is my practice project. I will improve it step by step.</p>
+<h2>NeoBank</h2>
+<div class="container">
+    <!-- AUTH SCREEN -->
+    <div id="authScreen">
+        <header>
+            <div class="logo">NeoBank</div>
+        </header>
+        <div class="auth-form">
+            <h2 style="margin-bottom: 25px; text-align: center;">Welcome Back</h2>
+            
+            <input type="email" id="email" placeholder="Email address" autocomplete="email">
+            <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+            <button onclick="login()">Login</button>
+            <button onclick="signup()" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); margin-top: 10px;">
+                Create New Account
+            </button>
+            <p style="text-align: center; margin-top: 20px; font-size: 14px; opacity: 0.7;">
+                Secured by Firebase • Nigerian Neobank
+            </p>
         </div>
+    </div>
+    <!-- DASHBOARD -->
+    <div id="dashboardScreen" class="hidden">
 
-        <div class="card">
-            <h2>What I Will Learn</h2>
-            <div class="feature">✅ HTML & CSS (Beautiful Designs)</div>
-            <div class="feature">✅ JavaScript (Make it Interactive)</div>
-            <div class="feature">✅ Firebase (User Login & Database)</div>
-            <div class="feature">✅ Build Real Business Websites</div>
+<!-- AUTH -->
+<div id="auth">
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="signup()">Sign Up</button>
+  <button onclick="login()">Login</button>
+        <header>
+            <div class="logo">NeoBank</div>
+            <div onclick="logout()" style="cursor: pointer; padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 30px; font-size: 14px;">
+                Logout
+            </div>
+        </header>
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="balance-label">Available Balance</div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+                <span style="font-size: 22px; opacity: 0.8;">₦</span>
+                <span id="balance" class="balance-amount">0.00</span>
+            </div>
+            <div class="card-number">•••• •••• •••• 4242</div>
         </div>
-
-        <a href="#" class="btn">Start Learning With Me</a>
-        
-        <p style="text-align:center; opacity:0.7; font-size:14px;">
-            Built by a young developer from Nigeria<br>
-            Turning 18 in December 2026
+        <!-- Quick Actions -->
+        <div class="section-title">Quick Actions</div>
+        <div class="action-buttons">
+            <div class="action-btn">Send</div>
+            <div class="action-btn">Receive</div>
+            <div class="action-btn">Pay</div>
+            <div class="action-btn">More</div>
+        </div>
+        <!-- Send Money -->
+        <div class="send-section">
+            <div class="section-title" style="margin-top: 0;">Send Money</div>
+            <input type="text" id="recipientEmail" placeholder="Recipient Email">
+            <input type="number" id="sendAmount" placeholder="Amount (₦)" min="1">
+            <button onclick="sendMoney()">Send Securely</button>
+        </div>
+        <p style="text-align: center; opacity: 0.6; font-size: 13px;">
+            All transactions are encrypted and protected
         </p>
     </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden">
+  <h3>Balance: ¥<span id="balance">0</span></h3>
+  <input id="amount" placeholder="Send Amount">
+  <button onclick="sendMoney()">Send</button>
+  <button onclick="logout()">Logout</button>
+<!-- Bottom Navigation -->
+<div class="nav hidden" id="bottomNav">
+    <div class="nav-item active">Home</div>
+    <div class="nav-item">Cards</div>
+    <div class="nav-item">Transactions</div>
+    <div class="nav-item">Profile</div>
+</div>
+
+<script>
+// 🔥 REPLACE WITH YOUR FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyDLvK-Q4v1hZ2B-mtxZzNXs5m1tCS6LdGw",
+  authDomain: "neobank-app-3ebbe.firebaseapp.com",
+  projectId: "neobank-app-3ebbe",
+  storageBucket: "neobank-app-3ebbe.firebasestorage.app",
+  messagingSenderId: "258331631270",
+  appId: "1:258331631270:web:f4eeeb8ac1e3177bb21e67",
+ }
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// SIGNUP
+// ====================== AUTH FUNCTIONS ======================
+function signup() {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+  .then(user => {
+    db.collection("users").doc(user.user.uid).set({
+      balance: 50000
+    });
+  });
+    if (!email || !password) {
+        alert("Please enter email and password");
+        return;
+    }
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            // Create user document with initial balance (for demo)
+            db.collection("users").doc(user.uid).set({
+                email: user.email,
+                balance: 125000.50,   // Demo starting balance in Naira
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            alert("Account created successfully! Welcome to NeoBank");
+        })
+        .catch((error) => {
+            alert(error.message);
+        });
+}
+
+// LOGIN
+function login() {
+  auth.signInWithEmailAndPassword(email.value, password.value);
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    auth.signInWithEmailAndPassword(email, password)
+        .catch((error) => {
+            alert(error.message);
+        });
+}
+
+// LOGOUT
+function logout() {
+  auth.signOut();
+    auth.signOut();
+}
+
+// AUTH STATE
+auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById("auth").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+// ====================== DASHBOARD & REAL-TIME BALANCE ======================
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        document.getElementById("authScreen").classList.add("hidden");
+        document.getElementById("dashboardScreen").classList.remove("hidden");
+        document.getElementById("bottomNav").classList.remove("hidden");
+
+    db.collection("users").doc(user.uid).onSnapshot(doc => {
+      document.getElementById("balance").innerText = doc.data().balance;
+    });
+  } else {
+    document.getElementById("auth").classList.remove("hidden");
+    document.getElementById("dashboard").classList.add("hidden");
+  }
+        // Real-time balance listener
+        db.collection("users").doc(user.uid).onSnapshot((doc) => {
+            if (doc.exists) {
+                const balance = doc.data().balance || 0;
+                document.getElementById("balance").innerText = balance.toLocaleString('en-NG', {minimumFractionDigits: 2});
+            }
+        });
+    } else {
+        document.getElementById("authScreen").classList.remove("hidden");
+        document.getElementById("dashboardScreen").classList.add("hidden");
+        document.getElementById("bottomNav").classList.add("hidden");
+    }
+});
+
+// SEND MONEY
+// ====================== SEND MONEY (with transaction safety) ======================
+function sendMoney() {
+  const amount = parseInt(document.getElementById("amount").value);
+  const user = auth.currentUser;
+    const recipientEmail = document.getElementById("recipientEmail").value.trim();
+    const amount = parseFloat(document.getElementById("sendAmount").value);
+
+  const ref = db.collection("users").doc(user.uid);
+    if (!recipientEmail || !amount || amount <= 0) {
+        alert("Please enter valid recipient and amount");
+        return;
+    }
+
+  db.runTransaction(async (t) => {
+    const doc = await t.get(ref);
+    let balance = doc.data().balance;
+    const user = auth.currentUser;
+    if (!user) return;
+
+    if (amount > balance) {
+      alert("Insufficient funds");
+      return;
+    }
+    const userRef = db.collection("users").doc(user.uid);
+
+    balance -= amount;
+    t.update(ref, { balance });
+  });
+    db.runTransaction(async (transaction) => {
+        const userDoc = await transaction.get(userRef);
+        if (!userDoc.exists) throw "User document does not exist";
+        const currentBalance = userDoc.data().balance || 0;
+        if (currentBalance < amount) {
+            throw "Insufficient balance";
+        }
+        // Update sender balance
+        transaction.update(userRef, {
+            balance: currentBalance - amount
+        });
+        // In a real app, you would also create a transaction record and notify recipient
+        console.log(`Sent ₦${amount} to ${recipientEmail}`);
+    }).then(() => {
+        alert(`₦${amount.toLocaleString()} sent successfully!`);
+        document.getElementById("sendAmount").value = "";
+        document.getElementById("recipientEmail").value = "";
+    }).catch((error) => {
+        alert(error === "Insufficient balance" ? "Insufficient funds" : error);
+    });
+}
+</script>
+</script> 
+
 </body>
 </html>
