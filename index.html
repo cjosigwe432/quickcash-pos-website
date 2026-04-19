@@ -87,13 +87,13 @@ button {
 let display = document.getElementById("display");
 
 let expression = "";
+let display = document.getElementById("display");
 
-// Show on screen
 function update() {
     display.innerText = expression || "0";
 }
 
-// Press number
+// Numbers
 function press(num) {
     expression += num;
     update();
@@ -105,15 +105,41 @@ function dot() {
     update();
 }
 
-// Operator
+// Operators
 function setOperator(op) {
+    if (expression === "") return;
+
+    let last = expression.slice(-1);
+
+    // prevent double operators like ++ or **
+    if ("+-*/".includes(last)) {
+        expression = expression.slice(0, -1);
+    }
+
     expression += op;
+    update();
+}
+
+// Brackets ✅ (NEW)
+function addBracket(br) {
+    expression += br;
     update();
 }
 
 // Clear
 function clearAll() {
     expression = "";
+    update();
+}
+
+// Equal
+function equal() {
+    try {
+        let result = solveExpression(expression);
+        expression = result.toString();
+    } catch {
+        expression = "Error";
+    }
     update();
 }
 
