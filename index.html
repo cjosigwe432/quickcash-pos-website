@@ -1,63 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NeoBank </title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone Calculator Pro</title>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<style>
+body {
+    margin: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.calculator {
+    width: 320px;
+    background: #000;
+}
+
+.display {
+    color: #fff;
+    font-size: 60px;
+    text-align: right;
+    padding: 20px;
+    min-height: 80px;
+    overflow: hidden;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 10px;
+}
+
+button {
+    height: 70px;
+    font-size: 26px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+button:active {
+    transform: scale(0.9);
+    opacity: 0.7;
+}
+
+.gray { background: #a5a5a5; color: #000; }
+.dark { background: #333; color: #fff; }
+.orange { background: #ff9500; color: #fff; }
+
+.active-op {
+    background: #fff !important;
+    color: #ff9500 !important;
+}
+
+.zero {
+    grid-column: span 2;
+    border-radius: 40px;
+    text-align: left;
+    padding-left: 25px;
+}
+</style>
 </head>
 
 <body>
 
-<!-- BACKGROUND -->
-<div id="bg"></div>
+<div class="calculator">
+    <div id="display" class="display">0</div>
 
-<div class="container">
+    <div class="buttons">
+        <button class="gray" onclick="clearAll()">AC</button>
+        <button class="gray" onclick="toggleSign()">±</button>
+        <button class="gray" onclick="percent()">%</button>
+        <button class="orange" onclick="chooseOp('/')">÷</button>
 
-  <!-- AUTH -->
-  <div id="auth" class="card">
-    <h2>NeoBank</h2>
+        <button class="dark" onclick="inputNum('7')">7</button>
+        <button class="dark" onclick="inputNum('8')">8</button>
+        <button class="dark" onclick="inputNum('9')">9</button>
+        <button class="orange" onclick="chooseOp('*')">×</button>
 
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
+        <button class="dark" onclick="inputNum('4')">4</button>
+        <button class="dark" onclick="inputNum('5')">5</button>
+        <button class="dark" onclick="inputNum('6')">6</button>
+        <button class="orange" onclick="chooseOp('-')">−</button>
 
-    <button onclick="signup()">Create Account</button>
-    <button onclick="login()">Login</button>
-  </div>
+        <button class="dark" onclick="inputNum('1')">1</button>
+        <button class="dark" onclick="inputNum('2')">2</button>
+        <button class="dark" onclick="inputNum('3')">3</button>
+        <button class="orange" onclick="chooseOp('+')">+</button>
 
-  <!-- DASHBOARD -->
-  <div id="dashboard" class="dashboard">
-
-    <div class="top">
-      <img id="avatar">
-      <button onclick="logout()">Logout</button>
+        <button class="dark zero" onclick="inputNum('0')">0</button>
+        <button class="dark" onclick="inputDecimal()">.</button>
+        <button class="orange" onclick="compute()">=</button>
     </div>
-
-    <div class="balance-card">
-      <p>Available Balance</p>
-      <h1>$<span id="balance">0</span></h1>
-    </div>
-
-    <img id="cardImage">
-
-    <div class="transfer">
-      <input id="receiver" placeholder="Receiver Email">
-      <input id="amount" type="number" placeholder="Amount">
-      <button onclick="sendMoney()">Send Money</button>
-    </div>
-
-    <div class="transactions">
-      <h3>Transactions</h3>
-      <ul id="history"></ul>
-    </div>
-
-  </div>
-
 </div>
 
-<script src="script.js"></script>
+<script>
+let current = "0";
+let previous = "";
+let operator = null;
+
+const display = document.getElementById("display");
+
+function updateDisplay() {
+    display.innerText = formatNumber(current);
+}
+
+function formatNumber(num) {
+    let [int, dec] = num.split(".");
+    int = Number(int).toLocaleString();
+    return dec ? int + "." + dec : int;
+}
+
+function inputNum(num) {
+    if (current === "0") current = num;
+    else current += num;
+    updateDisplay();
+}
+
+function inputDecimal() {
+    if (!current.includes(".")) {
+        current += ".";
+    }
+    updateDisplay();
+}
+
+function clearAll() {
+    current = "0";
+    previous = "";
+    operator = null;
+    updateDisplay();
+}
+
+function toggleSign() {
+    current = (parseFloat(current) * -1).toString();
+    updateDisplay();
+}
+
+function percent() {
+    current = (parseFloat(current) / 100).toString();
+    updateDisplay();
+}
+
+function chooseOp(op) {
+    if (operator !== null) compute();
+    operator = op;
+    previous = current;
+    current = "0";
+}
+
+function compute() {
+    let result;
+    const prev = parseFloat(previous);
+    const curr = parseFloat(current);
+
+    if (isNaN(prev) || isNaN(curr)) return;
+
+    switch (operator) {
+        case "+": result = prev + curr; break;
+        case "-": result = prev - curr; break;
+        case "*": result = prev * curr; break;
+        case "/": result = curr === 0 ? "Error" : prev / curr; break;
+        default: return;
+    }
+
+    current = result.toString();
+    operator = null;
+    previous = "";
+    updateDisplay();
+}
+
+// Keyboard Support
+document.addEventListener("keydown", (e) => {
+    if (!isNaN(e.key)) inputNum(e.key);
+    if (e.key === ".") inputDecimal();
+    if (["+", "-", "*", "/"].includes(e.key)) chooseOp(e.key);
+    if (e.key === "Enter") compute();
+    if (e.key === "Backspace") {
+        current = current.slice(0, -1) || "0";
+        updateDisplay();
+    }
+});
+</script>
+
 </body>
 </html>
